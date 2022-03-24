@@ -1,23 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState, useEffect } from "react";
+import axios from 'axios';
 
 function App() {
+  const [description, setDescription] = useState([]);
+  const [amount, setAmount] = useState([]);
+  const [item, setItem] = useState([]);
+
+  useEffect(() => {
+    axios.get(URL)
+      .then((response) => {
+        setDescription(response.data);
+      }).catch(error => {
+        alert(error); 
+      });
+  }, [])
+  
+  useEffect(() => {
+    axios.get(URL)
+      .then((response) => {
+        setAmount(response.data);
+      }).catch(error => {
+        alert(error); 
+      });
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <form>
+        <div>
+          <h3>Shopping list </h3>
+        </div>
+        <div>
+          <label>New item </label>
+        </div>
+          <input placeholder='Description'></input>
+          <input placeholder='Amount'></input>
+        <div>
+          <button>Add</button>
+        </div>
+      </form>
+      <ol>
+        {item?.map(item =>(
+          <li key={item.id}>{item.description} {item.amount}</li>
+        ))}
+      </ol>
     </div>
   );
 }
